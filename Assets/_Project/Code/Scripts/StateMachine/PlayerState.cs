@@ -6,6 +6,8 @@ public abstract class PlayerState : IState
     protected readonly PlayerAnimator Animator;
     protected readonly PlayerData Data;
 
+    public bool IsPerformed { get; protected set; }
+
     protected PlayerState(CharacterController characterController, PlayerAnimator animator, PlayerData data)
     {
         CharacterController = characterController;
@@ -17,7 +19,7 @@ public abstract class PlayerState : IState
     {
     }
 
-    public virtual void Exit()
+    public virtual void Update()
     {
     }
 
@@ -25,7 +27,7 @@ public abstract class PlayerState : IState
     {
     }
 
-    public virtual void Update()
+    public virtual void Exit()
     {
     }
 }

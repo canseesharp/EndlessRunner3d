@@ -1,5 +1,7 @@
 public interface IState
 {
+    public bool IsPerformed { get; }
+
     void Enter();
 
     void Update();
