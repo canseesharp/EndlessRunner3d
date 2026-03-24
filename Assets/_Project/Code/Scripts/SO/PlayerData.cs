@@ -17,6 +17,10 @@ public class PlayerData : ScriptableObject
     [SerializeField] private float _jumpBuffer;
     [SerializeField] private float _coyoteTime;
 
+    [Header("Slide")]
+    [SerializeField] private float _slideDuration;
+    [SerializeField] private float _slideBuffer;
+
     public Line Line { get; private set; }
 
     public float FallSpeed => _fallSpeed;
@@ -36,6 +40,10 @@ public class PlayerData : ScriptableObject
     public float JumpBuffer => _jumpBuffer;
 
     public float CoyoteTime => _coyoteTime;
+
+    public float SlideDuration => _slideDuration;
+
+    public float SlideBuffer => _slideBuffer;
 
     public bool TryShiftLeft()
     {

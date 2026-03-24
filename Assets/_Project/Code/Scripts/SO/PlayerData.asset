@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db9fbd0cf1b0bf8808e94096901cee34, type: 3}
   m_Name: PlayerData
   m_EditorClassIdentifier: Assembly-CSharp::PlayerData
-  _fallSpeed: 9.8
+  _fallSpeed: 7
   _shiftDuration: 0.4
   _shiftCurve:
     serializedVersion: 2
@@ -63,7 +63,9 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  _jumpDuration: 0.4
+  _jumpDuration: 0.5
   _jumpHeight: 2.5
   _jumpBuffer: 0.15
   _coyoteTime: 0.15
+  _slideDuration: 1
+  _slideBuffer: 0.15
