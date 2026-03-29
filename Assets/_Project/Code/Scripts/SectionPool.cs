@@ -11,18 +11,18 @@ public class SectionPool : MonoBehaviour
 
     public WorldSection Get() => _objectPool.Get();
 
-    private void Awake()
+    public void Init(GameDifficulty difficulty)
     {
         _objectPool = new ObjectPool<WorldSection>(
-                createFunc: CreateSection, 
+                createFunc: () => CreateSection(difficulty), 
                 defaultCapacity: _defaultSize,
                 maxSize: _maxSize);
     }
 
-    private WorldSection CreateSection()
+    private WorldSection CreateSection(GameDifficulty difficulty)
     {
         WorldSection instance = Instantiate(_template, Vector3.zero, Quaternion.identity);
-        instance.Init(_objectPool);
+        instance.Init(_objectPool, difficulty);
         return instance;
     }
 }
