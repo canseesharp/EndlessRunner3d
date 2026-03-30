@@ -1,11 +1,9 @@
-using UnityEngine;
-
 public class Running : PlayerState
 {
-    public Running(CharacterController characterController,
+    public Running(PlayerController controller,
             PlayerAnimator animator,
             PlayerData data)
-        : base(characterController, animator, data)
+        : base(controller, animator, data)
     {
     }
 

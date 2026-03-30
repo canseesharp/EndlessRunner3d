@@ -3,27 +3,24 @@ using UnityEngine;
 public class Jumping : PlayerState
 {
     private readonly Transform _transform;
-    private readonly PlayerGravity _gravity;
 
     private float _progress;
     private float _startPositionY;
     private float _elapsedSeconds = 0f;
 
-    public Jumping(CharacterController characterController,
+    public Jumping(PlayerController controller,
             PlayerAnimator animator,
-            PlayerData data,
-            PlayerGravity gravity)
-        : base(characterController, animator, data)
+            PlayerData data)
+        : base(controller, animator, data)
     {
-        _transform = characterController.transform;
-        _gravity = gravity;
+        _transform = controller.transform;
     }
 
     public override void Enter()
     {
         Animator.PlayJump();
         _startPositionY = _transform.position.y;
-        _gravity.DisableGravity();
+        PlayerController.DisableGravity();
     }
 
     public override void Update()
@@ -37,7 +34,7 @@ public class Jumping : PlayerState
         _elapsedSeconds += Time.deltaTime;
         _progress = _elapsedSeconds / Data.JumpDuration;
         float y = _startPositionY + Data.JumpCurve.Evaluate(_progress) * Data.JumpHeight;
-        CharacterController.Move(Vector3.up * (y - _transform.position.y));
+        PlayerController.Move(Vector3.up * (y - _transform.position.y));
     }
 
     public override void Exit()
@@ -45,6 +42,6 @@ public class Jumping : PlayerState
         IsPerformed = false;
         _progress = 0f;
         _elapsedSeconds = 0f;
-        _gravity.EnableGravity();
+        PlayerController.EnableGravity();
     }
 }

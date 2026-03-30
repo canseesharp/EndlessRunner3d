@@ -11,12 +11,12 @@ public class Shifting : PlayerState
     private float _elapsedSeconds;
     private float _startPositionX;
 
-    public Shifting(CharacterController characterController,
+    public Shifting(PlayerController controller,
             PlayerAnimator animator,
             PlayerData data)
-        : base(characterController, animator, data)
+        : base(controller, animator, data)
     {
-        _transform = characterController.transform;
+        _transform = controller.transform;
         _linesPosition[Line.Left] = -3f;
         _linesPosition[Line.Middle] = 0f;
         _linesPosition[Line.Right] = 3f;
@@ -48,7 +48,7 @@ public class Shifting : PlayerState
         _progress = _elapsedSeconds / Data.ShiftDuration;
 
         float x = _startPositionX + (_linesPosition[_targetLine] - _startPositionX) * Data.ShiftCurve.Evaluate(_progress);
-        CharacterController.Move(Vector3.right * (x - _transform.position.x));
+        PlayerController.Move(Vector3.right * (x - _transform.position.x));
     }
 
     public override void Exit()

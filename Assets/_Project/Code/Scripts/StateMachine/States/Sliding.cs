@@ -4,10 +4,10 @@ public class Sliding : PlayerState
 {
     private float _elapsedSeconds;
 
-    public Sliding(CharacterController characterController,
+    public Sliding(PlayerController controller,
             PlayerAnimator animator,
             PlayerData data)
-        : base(characterController, animator, data)
+        : base(controller, animator, data)
     {
     }
 
