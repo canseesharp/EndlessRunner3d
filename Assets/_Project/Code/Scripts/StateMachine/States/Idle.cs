@@ -1,11 +1,9 @@
-using UnityEngine;
-
 public class Idle : PlayerState
 {
-    public Idle(CharacterController characterController,
+    public Idle(PlayerController controller,
             PlayerAnimator animator,
             PlayerData data)
-        : base(characterController, animator, data)
+        : base(controller, animator, data)
     {
     }
 }

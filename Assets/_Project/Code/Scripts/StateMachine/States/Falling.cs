@@ -1,11 +1,9 @@
-using UnityEngine;
-
 public class Falling : PlayerState
 {
-    public Falling(CharacterController characterController,
+    public Falling(PlayerController controller,
             PlayerAnimator animator,
             PlayerData data)
-        : base(characterController, animator, data)
+        : base(controller, animator, data)
     {
     }
 

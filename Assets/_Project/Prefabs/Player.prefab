@@ -554,7 +554,7 @@ GameObject:
   - component: {fileID: 4015330866279325216}
   - component: {fileID: 7014777474890351706}
   - component: {fileID: 7817594636672196110}
-  - component: {fileID: 5245269508892459539}
+  - component: {fileID: 678940963179475931}
   - component: {fileID: 7287546540587784819}
   - component: {fileID: 3210970548239240875}
   m_Layer: 0
@@ -628,7 +628,7 @@ CharacterController:
   m_SkinWidth: 0.05
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0.9, z: 0}
---- !u!114 &5245269508892459539
+--- !u!114 &678940963179475931
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -637,9 +637,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 4391716118248408218}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8bece0b64e21b60ed901d9f0480d8d22, type: 3}
+  m_Script: {fileID: 11500000, guid: bd84a7a90b937961d92b73f01fde600f, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerGravity
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerController
 --- !u!114 &7287546540587784819
 MonoBehaviour:
   m_ObjectHideFlags: 0

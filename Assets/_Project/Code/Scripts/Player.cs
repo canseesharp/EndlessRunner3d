@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[RequireComponent(typeof(PlayerStateMachine), typeof(Animator), typeof(PlayerGravity))]
+[RequireComponent(typeof(PlayerStateMachine), typeof(Animator), typeof(PlayerController))]
 public class Player : MonoBehaviour
 {
     [SerializeField] private PlayerData _data;
@@ -13,13 +13,13 @@ public class Player : MonoBehaviour
     {
         _data.Init();
 
-        var gravity = GetComponent<PlayerGravity>();
-        gravity.Init(_data);
+        var controller = GetComponent<PlayerController>();
+        controller.Init(_data);
 
         _animator = new(GetComponent<Animator>());
 
         _stateMachine = GetComponent<PlayerStateMachine>();
-        _stateMachine.Init(_data, _animator, gravity);
+        _stateMachine.Init(_data, _animator, controller);
 
         _playerInput = new();
     }
