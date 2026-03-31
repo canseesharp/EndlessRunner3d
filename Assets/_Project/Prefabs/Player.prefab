@@ -622,11 +622,11 @@ CharacterController:
   m_Enabled: 1
   serializedVersion: 3
   m_Height: 1.55
-  m_Radius: 0.35
+  m_Radius: 0.25
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.05
-  m_MinMoveDistance: 0.001
+  m_MinMoveDistance: 0
   m_Center: {x: 0, y: 0.9, z: 0}
 --- !u!114 &678940963179475931
 MonoBehaviour:
@@ -640,6 +640,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd84a7a90b937961d92b73f01fde600f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
+  _difficulty: {fileID: 0}
+  _sectionData: {fileID: 11400000, guid: 4df700ed0e8adac8cae530c7462590a9, type: 2}
 --- !u!114 &7287546540587784819
 MonoBehaviour:
   m_ObjectHideFlags: 0
