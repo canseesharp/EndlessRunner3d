@@ -13,6 +13,7 @@ public class Sliding : PlayerState
 
     public override void Enter()
     {
+        PlayerController.Slide();
         Animator.PlaySlide();
     }
 
@@ -28,6 +29,7 @@ public class Sliding : PlayerState
     
     public override void Exit()
     {
+        PlayerController.Stand();
         _elapsedSeconds = 0f;
         IsPerformed = false;
     }
