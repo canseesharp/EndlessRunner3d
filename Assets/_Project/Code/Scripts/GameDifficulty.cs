@@ -11,6 +11,12 @@ public class GameDifficulty : MonoBehaviour
 
     public float Multiplier { get; private set; }
 
+    public void OnDead()
+    {
+        Multiplier = 0f;
+        enabled = false;
+    }
+
     private void Update()
     {
         if (_progress >= 1f)
