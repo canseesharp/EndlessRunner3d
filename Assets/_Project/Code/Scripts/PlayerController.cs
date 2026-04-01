@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameDifficulty _difficulty;
     [SerializeField] private SectionData _sectionData;
     [SerializeField] private Transform _headPosition;
+    [SerializeField] private Transform _slidingHeadPosition;
 
     private PlayerData _data;
     private CharacterController _characterController;
@@ -18,6 +19,11 @@ public class PlayerController : MonoBehaviour
     private bool _hasGravity = true;
     private Vector3 _surfaceNormal = Vector3.up;
     private Vector3 _frameMotion = Vector3.zero;
+    private Vector3 _standBodyCenter;
+    private Vector3 _slideBodyCenter;
+    private float _slideBodyHeight;
+    private float _standBodyHeight;
+    private Transform _collisionCheckPoint;
 
     public bool IsGrounded => _coyoteTime > 0f;
 
@@ -38,9 +44,28 @@ public class PlayerController : MonoBehaviour
         _frameMotion += motion;
     }
 
+    public void Slide()
+    {
+        _characterController.center = _slideBodyCenter;
+        _characterController.height = _slideBodyHeight;
+        _collisionCheckPoint = _slidingHeadPosition;
+    }
+
+    public void Stand()
+    {
+        _characterController.center = _standBodyCenter;
+        _characterController.height = _standBodyHeight;
+        _collisionCheckPoint = _headPosition;
+    }
+
     private void Awake()
     {
         _characterController = GetComponent<CharacterController>();
+        _standBodyCenter = _characterController.center;
+        _slideBodyCenter = new Vector3(_standBodyCenter.x, _standBodyCenter.y * 0.5f, _standBodyCenter.z);
+        _standBodyHeight = _characterController.height;
+        _slideBodyHeight = _standBodyHeight * 0.5f;
+        _collisionCheckPoint = _headPosition;
     }
 
     private void Update()
@@ -80,9 +105,9 @@ public class PlayerController : MonoBehaviour
         {
             _surfaceNormal = hit.normal;
         }
-        else if (Physics.Raycast(_headPosition.position, Vector3.forward, _rayLength)
-                || Physics.Raycast(_headPosition.position, Vector3.right, _rayLength)
-                || Physics.Raycast(_headPosition.position, Vector3.left, _rayLength))
+        else if (Physics.Raycast(_collisionCheckPoint.position, Vector3.forward, _rayLength)
+                || Physics.Raycast(_collisionCheckPoint.position, Vector3.right, _rayLength)
+                || Physics.Raycast(_collisionCheckPoint.position, Vector3.left, _rayLength))
         {
             _difficulty.OnDead();
             ObstacleHit?.Invoke();
