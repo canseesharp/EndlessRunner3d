@@ -11,6 +11,7 @@ public class PlayerStateMachine : MonoBehaviour
     private TimeFlagPredicate _jumpPredicate;
     private TimeFlagPredicate _shiftPredicate;
     private TimeFlagPredicate _slidePredicate;
+    private bool _isDead;
 
     public void Init(PlayerData data, PlayerAnimator animator, PlayerController controller)
     {
@@ -53,6 +54,16 @@ public class PlayerStateMachine : MonoBehaviour
         SetupStateMachine();
     }
 
+    private void OnEnable()
+    {
+        _controller.ObstacleHit += OnObstacleHit;
+    }
+
+    private void OnDisable()
+    {
+        _controller.ObstacleHit -= OnObstacleHit;
+    }
+
     private void Update()
     {
         _verticalMachine.Update();
@@ -65,6 +76,11 @@ public class PlayerStateMachine : MonoBehaviour
         _horizontalMachine.FixedUpdate();
     }
 
+    private void OnObstacleHit()
+    {
+        _isDead = true;
+    }
+
     private void SetupStateMachine()
     {
         var idle = new Idle(_controller, _animator, _data);
@@ -74,6 +90,7 @@ public class PlayerStateMachine : MonoBehaviour
         var falling = new Falling(_controller, _animator, _data);
         var shifting = new Shifting(_controller, _animator, _data);
         var sliding = new Sliding(_controller, _animator, _data);
+        var dead = new Dead(_controller, _animator, _data);
         _horizontalMachine = new(idle);
 
         _verticalMachine.AddTransition(running, jumping, _jumpPredicate);
@@ -87,5 +104,8 @@ public class PlayerStateMachine : MonoBehaviour
 
         _horizontalMachine.AddTransition(idle, shifting, _shiftPredicate);
         _horizontalMachine.AddTransition(shifting, idle, new FuncPredicate(() => shifting.IsPerformed == true));
+
+        _verticalMachine.AddAnyTransition(dead, new FuncPredicate(() => _isDead == true));
+        _horizontalMachine.AddAnyTransition(dead, new FuncPredicate(() => _isDead == true));
     }
 }

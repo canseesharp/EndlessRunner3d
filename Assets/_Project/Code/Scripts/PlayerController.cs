@@ -6,18 +6,18 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] private GameDifficulty _difficulty;
     [SerializeField] private SectionData _sectionData;
+    [SerializeField] private Transform _headPosition;
 
     private PlayerData _data;
     private CharacterController _characterController;
-
+    private readonly float _vectorEqualityFactor = 0.01f;
+    private readonly float _slightForwardMove = 0.01f;
+    private readonly float _rayLength = 0.5f;
     private float _coyoteTime;
     private float _groundedGravity;
     private bool _hasGravity = true;
-    private Vector3 _frameMotion = Vector3.zero;
-
-    private readonly float _vectorEqualityFactor = 0.01f;
-    private readonly float _slightForwardMove = 0.01f;
     private Vector3 _surfaceNormal = Vector3.up;
+    private Vector3 _frameMotion = Vector3.zero;
 
     public bool IsGrounded => _coyoteTime > 0f;
 
@@ -75,13 +75,17 @@ public class PlayerController : MonoBehaviour
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
-        if (hit.moveDirection == Vector3.forward)
-        {
-            ObstacleHit?.Invoke();
-        }
-        else if (hit.moveDirection == Vector3.down)
+        Vector3 hitDirection = hit.moveDirection;
+        if (hitDirection == Vector3.down)
         {
             _surfaceNormal = hit.normal;
+        }
+        else if (Physics.Raycast(_headPosition.position, Vector3.forward, _rayLength)
+                || Physics.Raycast(_headPosition.position, Vector3.right, _rayLength)
+                || Physics.Raycast(_headPosition.position, Vector3.left, _rayLength))
+        {
+            _difficulty.OnDead();
+            ObstacleHit?.Invoke();
         }
     }
 }

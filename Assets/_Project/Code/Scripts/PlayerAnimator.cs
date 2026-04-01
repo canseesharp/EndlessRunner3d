@@ -12,6 +12,7 @@ public class PlayerAnimator
     private readonly int _slide = Animator.StringToHash("Slide");
     private readonly int _shiftLeft = Animator.StringToHash("ShiftLeft");
     private readonly int _shiftRight = Animator.StringToHash("ShiftRight");
+    private readonly int _dead = Animator.StringToHash("Dead");
 
     public PlayerAnimator(Animator animator)
     {
@@ -67,5 +68,11 @@ public class PlayerAnimator
             _animator.CrossFade(_run, _crossFadeDuration);
             _currentAnimation = _run;
         }
+    }
+
+    public void PlayDead()
+    {
+        _animator.CrossFade(_dead, _crossFadeDuration);
+        _currentAnimation = _dead;
     }
 }
