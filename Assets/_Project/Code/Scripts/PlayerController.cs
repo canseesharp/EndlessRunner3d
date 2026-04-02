@@ -70,6 +70,14 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        CheckGround();
+        ApplyGravity();
+        MoveAlongSurface();
+        ApplyMotions();
+    }
+
+    private void CheckGround()
+    {
         if (_characterController.isGrounded)
         {
             _coyoteTime = _data.CoyoteTime;
@@ -79,19 +87,26 @@ public class PlayerController : MonoBehaviour
             _coyoteTime -= Time.deltaTime;
             _surfaceNormal = Vector3.up;
         }
+    }
 
+    private void ApplyGravity()
+    {
         if (_hasGravity == true && Vector3.Distance(_surfaceNormal, Vector3.up) < _vectorEqualityFactor)
         {
             float gravity = IsGrounded == true ? _groundedGravity : _data.FallSpeed;
             Move(Vector3.down * gravity * Time.deltaTime);
         }
-
-        var project = Vector3.forward - Vector3.Dot(Vector3.forward, _surfaceNormal) * _surfaceNormal;
-        Move(project * ((_sectionData.Speed * _difficulty.Multiplier + _slightForwardMove) * Time.deltaTime));
-        ApplyMovement();
     }
 
-    private void ApplyMovement()
+    private Vector3 Project(Vector3 direction) => direction - Vector3.Dot(direction, _surfaceNormal) * _surfaceNormal;
+
+    private void MoveAlongSurface()
+    {
+        var directionAlongSurface = Project(Vector3.forward);
+        Move(directionAlongSurface * ((_sectionData.Speed * _difficulty.Multiplier + _slightForwardMove) * Time.deltaTime));
+    }
+
+    private void ApplyMotions()
     {
         _characterController.Move(_frameMotion);
         _frameMotion = Vector3.zero;
