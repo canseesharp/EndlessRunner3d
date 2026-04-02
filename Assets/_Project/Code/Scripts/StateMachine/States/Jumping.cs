@@ -34,7 +34,7 @@ public class Jumping : PlayerState
         _elapsedSeconds += Time.deltaTime;
         _progress = _elapsedSeconds / Data.JumpDuration;
         float y = _startPositionY + Data.JumpCurve.Evaluate(_progress) * Data.JumpHeight;
-        PlayerController.Move(Vector3.up * (y - _transform.position.y));
+        PlayerController.FrameMotion.AddMotion(Vector3.up * (y - _transform.position.y));
     }
 
     public override void Exit()

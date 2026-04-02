@@ -48,7 +48,7 @@ public class Shifting : PlayerState
         _progress = _elapsedSeconds / Data.ShiftDuration;
 
         float x = _startPositionX + (_linesPosition[_targetLine] - _startPositionX) * Data.ShiftCurve.Evaluate(_progress);
-        PlayerController.Move(Vector3.right * (x - _transform.position.x));
+        PlayerController.FrameMotion.AddMotion(Vector3.right * (x - _transform.position.x));
     }
 
     public override void Exit()
