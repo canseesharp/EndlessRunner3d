@@ -18,14 +18,12 @@ public class PlayerController : MonoBehaviour
     private float _groundedGravity;
     private bool _hasGravity = true;
     private Vector3 _surfaceNormal = Vector3.up;
-    private Vector3 _frameMotion = Vector3.zero;
-    private Vector3 _standBodyCenter;
-    private Vector3 _slideBodyCenter;
-    private float _slideBodyHeight;
-    private float _standBodyHeight;
+    private CapsuleDimensions _standCapsule;
+    private CapsuleDimensions _slideCapsule;
     private Transform _collisionCheckPoint;
 
     public bool IsGrounded => _coyoteTime > 0f;
+    public FrameMotion FrameMotion { get; private set; }
 
     public event Action ObstacleHit;
 
@@ -39,32 +37,27 @@ public class PlayerController : MonoBehaviour
 
     public void DisableGravity() => _hasGravity = false;
 
-    public void Move(Vector3 motion)
-    {
-        _frameMotion += motion;
-    }
-
     public void Slide()
     {
-        _characterController.center = _slideBodyCenter;
-        _characterController.height = _slideBodyHeight;
+        _slideCapsule.ApplyDimensionsTo(_characterController);
         _collisionCheckPoint = _slidingHeadPosition;
     }
 
     public void Stand()
     {
-        _characterController.center = _standBodyCenter;
-        _characterController.height = _standBodyHeight;
+        _standCapsule.ApplyDimensionsTo(_characterController);
         _collisionCheckPoint = _headPosition;
     }
 
     private void Awake()
     {
         _characterController = GetComponent<CharacterController>();
-        _standBodyCenter = _characterController.center;
-        _slideBodyCenter = new Vector3(_standBodyCenter.x, _standBodyCenter.y * 0.5f, _standBodyCenter.z);
-        _standBodyHeight = _characterController.height;
-        _slideBodyHeight = _standBodyHeight * 0.5f;
+        _standCapsule = new CapsuleDimensions(_characterController.center, _characterController.height);
+        _slideCapsule = new CapsuleDimensions(new Vector3(_characterController.center.x,
+                _characterController.center.y * 0.5f,
+                _characterController.center.z),
+                _characterController.height * 0.5f);
+        FrameMotion = new();
         _collisionCheckPoint = _headPosition;
     }
 
@@ -73,7 +66,8 @@ public class PlayerController : MonoBehaviour
         CheckGround();
         ApplyGravity();
         MoveAlongSurface();
-        ApplyMotions();
+        FrameMotion.ApplyMotionTo(_characterController);
+        ClampZ();
     }
 
     private void CheckGround()
@@ -94,7 +88,7 @@ public class PlayerController : MonoBehaviour
         if (_hasGravity == true && Vector3.Distance(_surfaceNormal, Vector3.up) < _vectorEqualityFactor)
         {
             float gravity = IsGrounded == true ? _groundedGravity : _data.FallSpeed;
-            Move(Vector3.down * gravity * Time.deltaTime);
+            FrameMotion.AddMotion(Vector3.down * gravity * Time.deltaTime);
         }
     }
 
@@ -103,15 +97,10 @@ public class PlayerController : MonoBehaviour
     private void MoveAlongSurface()
     {
         var directionAlongSurface = Project(Vector3.forward);
-        Move(directionAlongSurface * ((_sectionData.Speed * _difficulty.Multiplier + _slightForwardMove) * Time.deltaTime));
+        FrameMotion.AddMotion(directionAlongSurface * ((_sectionData.Speed * _difficulty.Multiplier + _slightForwardMove) * Time.deltaTime));
     }
 
-    private void ApplyMotions()
-    {
-        _characterController.Move(_frameMotion);
-        _frameMotion = Vector3.zero;
-        transform.position = new Vector3(transform.position.x, transform.position.y, 0f);
-    }
+    private void ClampZ() => transform.position = new Vector3(transform.position.x, transform.position.y, 0f);
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
