@@ -11,13 +11,10 @@ public class PlayerController : MonoBehaviour
 
     private PlayerData _data;
     private CharacterController _characterController;
-    private readonly float _vectorEqualityFactor = 0.01f;
-    private readonly float _slightForwardMove = 0.01f;
     private readonly float _rayLength = 0.5f;
     private float _coyoteTime;
     private float _groundedGravity;
     private bool _hasGravity = true;
-    private Vector3 _surfaceNormal = Vector3.up;
     private CapsuleDimensions _standCapsule;
     private CapsuleDimensions _slideCapsule;
     private Transform _collisionCheckPoint;
@@ -65,7 +62,7 @@ public class PlayerController : MonoBehaviour
     {
         CheckGround();
         ApplyGravity();
-        MoveAlongSurface();
+        MoveForward();
         FrameMotion.ApplyMotionTo(_characterController);
         ClampZ();
     }
@@ -79,39 +76,31 @@ public class PlayerController : MonoBehaviour
         else
         {
             _coyoteTime -= Time.deltaTime;
-            _surfaceNormal = Vector3.up;
         }
     }
 
     private void ApplyGravity()
     {
-        if (_hasGravity == true && Vector3.Distance(_surfaceNormal, Vector3.up) < _vectorEqualityFactor)
+        if (_hasGravity == true)
         {
             float gravity = IsGrounded == true ? _groundedGravity : _data.FallSpeed;
             FrameMotion.AddMotion(Vector3.down * gravity * Time.deltaTime);
         }
     }
 
-    private Vector3 Project(Vector3 direction) => direction - Vector3.Dot(direction, _surfaceNormal) * _surfaceNormal;
-
-    private void MoveAlongSurface()
+    private void MoveForward()
     {
-        var directionAlongSurface = Project(Vector3.forward);
-        FrameMotion.AddMotion(directionAlongSurface * ((_sectionData.Speed * _difficulty.Multiplier + _slightForwardMove) * Time.deltaTime));
+        FrameMotion.AddMotion(Vector3.forward * (_sectionData.Speed * _difficulty.Multiplier * Time.deltaTime));
     }
 
     private void ClampZ() => transform.position = new Vector3(transform.position.x, transform.position.y, 0f);
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
-        Vector3 hitDirection = hit.moveDirection;
-        if (hitDirection == Vector3.down)
-        {
-            _surfaceNormal = hit.normal;
-        }
-        else if (Physics.Raycast(_collisionCheckPoint.position, Vector3.forward, _rayLength)
+        if (hit.moveDirection != Vector3.down &&
+                (Physics.Raycast(_collisionCheckPoint.position, Vector3.forward, _rayLength)
                 || Physics.Raycast(_collisionCheckPoint.position, Vector3.right, _rayLength)
-                || Physics.Raycast(_collisionCheckPoint.position, Vector3.left, _rayLength))
+                || Physics.Raycast(_collisionCheckPoint.position, Vector3.left, _rayLength)))
         {
             _difficulty.OnDead();
             ObstacleHit?.Invoke();
