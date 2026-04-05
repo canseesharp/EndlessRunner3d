@@ -23,7 +23,7 @@ namespace EndlessRunner3d.StateMachine.States
         {
             Animator.PlayJump();
             _startPositionY = _transform.position.y;
-            PlayerController.DisableGravity();
+            PlayerController.HasGravity = false;
         }
 
         public override void Update()
@@ -45,7 +45,7 @@ namespace EndlessRunner3d.StateMachine.States
             IsPerformed = false;
             _progress = 0f;
             _elapsedSeconds = 0f;
-            PlayerController.EnableGravity();
+            PlayerController.HasGravity = true;
         }
     }
 }
