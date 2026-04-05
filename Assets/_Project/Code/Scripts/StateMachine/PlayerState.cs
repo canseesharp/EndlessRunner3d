@@ -1,31 +1,36 @@
-public abstract class PlayerState : IState
+using EndlessRunner3d.SO;
+
+namespace EndlessRunner3d.StateMachine
 {
-    protected readonly PlayerController PlayerController;
-    protected readonly PlayerAnimator Animator;
-    protected readonly PlayerData Data;
-
-    public bool IsPerformed { get; protected set; }
-
-    protected PlayerState(PlayerController controller, PlayerAnimator animator, PlayerData data)
+    public abstract class PlayerState : IState
     {
-        PlayerController = controller;
-        Animator = animator;
-        Data = data;
-    }
+        protected readonly PlayerController PlayerController;
+        protected readonly PlayerAnimator Animator;
+        protected readonly PlayerData Data;
 
-    public virtual void Enter()
-    {
-    }
+        public bool IsPerformed { get; protected set; }
 
-    public virtual void Update()
-    {
-    }
+        protected PlayerState(PlayerController controller, PlayerAnimator animator, PlayerData data)
+        {
+            PlayerController = controller;
+            Animator = animator;
+            Data = data;
+        }
 
-    public virtual void FixedUpdate()
-    {
-    }
+        public virtual void Enter()
+        {
+        }
 
-    public virtual void Exit()
-    {
+        public virtual void Update()
+        {
+        }
+
+        public virtual void FixedUpdate()
+        {
+        }
+
+        public virtual void Exit()
+        {
+        }
     }
 }

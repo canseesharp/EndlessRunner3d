@@ -1,14 +1,19 @@
-public class Running : PlayerState
-{
-    public Running(PlayerController controller,
-            PlayerAnimator animator,
-            PlayerData data)
-        : base(controller, animator, data)
-    {
-    }
+using EndlessRunner3d.SO;
 
-    public override void Enter()
+namespace EndlessRunner3d.StateMachine.States
+{
+    public class Running : PlayerState
     {
-        Animator.PlayRun();
+        public Running(PlayerController controller,
+                PlayerAnimator animator,
+                PlayerData data)
+            : base(controller, animator, data)
+        {
+        }
+
+        public override void Enter()
+        {
+            Animator.PlayRun();
+        }
     }
 }

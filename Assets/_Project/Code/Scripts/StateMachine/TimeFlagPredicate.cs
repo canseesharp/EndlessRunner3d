@@ -1,31 +1,34 @@
 using UnityEngine;
 
-public class TimeFlagPredicate : IPredicate
+namespace EndlessRunner3d.StateMachine
 {
-    private readonly float _time;
-
-    private float _setTime;
-    private bool _flag;
-
-    public TimeFlagPredicate(float time)
+    public class TimeFlagPredicate : IPredicate
     {
-        _time = time;
-    }
+        private readonly float _time;
 
-    public void SetFlag()
-    {
-        _flag = true;
-        _setTime = Time.time;
-    }
+        private float _setTime;
+        private bool _flag;
 
-    public bool Evaluate()
-    {
-        if (_flag == true && Time.time - _setTime <= _time)
+        public TimeFlagPredicate(float time)
         {
-            _flag = false;
-            return true;
+            _time = time;
         }
 
-        return false;
+        public void SetFlag()
+        {
+            _flag = true;
+            _setTime = Time.time;
+        }
+
+        public bool Evaluate()
+        {
+            if (_flag == true && Time.time - _setTime <= _time)
+            {
+                _flag = false;
+                return true;
+            }
+
+            return false;
+        }
     }
 }

@@ -1,17 +1,20 @@
 using UnityEngine;
 
-public class FrameMotion
+namespace EndlessRunner3d
 {
-    private Vector3 _motion;
-
-    public void AddMotion(Vector3 motion)
+    public class FrameMotion
     {
-        _motion += motion;
-    }
+        private Vector3 _motion;
 
-    public void ApplyMotionTo(CharacterController characterController)
-    {
-        characterController.Move(_motion);
-        _motion = Vector3.zero;
+        public void AddMotion(Vector3 motion)
+        {
+            _motion += motion;
+        }
+
+        public void ApplyMotionTo(CharacterController characterController)
+        {
+            characterController.Move(_motion);
+            _motion = Vector3.zero;
+        }
     }
 }

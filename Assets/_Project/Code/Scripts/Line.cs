@@ -1,6 +1,9 @@
-public enum Line
+namespace EndlessRunner3d
 {
-    Left,
-    Middle,
-    Right
+    public enum Line
+    {
+        Left,
+        Middle,
+        Right
+    }
 }

@@ -1,9 +1,14 @@
-public class Dead : PlayerState
+using EndlessRunner3d.SO;
+
+namespace EndlessRunner3d.StateMachine.States
 {
-    public Dead(PlayerController controller,
-            PlayerAnimator animator,
-            PlayerData data)
-        : base(controller, animator, data)
+    public class Dead : PlayerState
     {
+        public Dead(PlayerController controller,
+                PlayerAnimator animator,
+                PlayerData data)
+            : base(controller, animator, data)
+        {
+        }
     }
 }
