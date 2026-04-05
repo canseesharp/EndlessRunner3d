@@ -17,12 +17,12 @@ namespace EndlessRunner3d
         private readonly float _rayLength = 0.3f;
         private float _coyoteTime;
         private float _groundedGravity;
-        private bool _hasGravity = true;
         private CapsuleDimensions _standCapsule;
         private CapsuleDimensions _slideCapsule;
 
         public bool IsGrounded => _coyoteTime > 0f;
         public FrameMotion FrameMotion { get; private set; }
+        public bool HasGravity { get; set; } = true;
 
         public event Action ObstacleHit;
 
@@ -32,19 +32,9 @@ namespace EndlessRunner3d
             _groundedGravity = _data.FallSpeed * 0.2f;
         }
 
-        public void EnableGravity() => _hasGravity = true;
+        public void Slide() => _slideCapsule.ApplyDimensionsTo(_characterController);
 
-        public void DisableGravity() => _hasGravity = false;
-
-        public void Slide()
-        {
-            _slideCapsule.ApplyDimensionsTo(_characterController);
-        }
-
-        public void Stand()
-        {
-            _standCapsule.ApplyDimensionsTo(_characterController);
-        }
+        public void Stand() => _standCapsule.ApplyDimensionsTo(_characterController);
 
         private void Awake()
         {
@@ -80,7 +70,7 @@ namespace EndlessRunner3d
 
         private void ApplyGravity()
         {
-            if (_hasGravity == true)
+            if (HasGravity == true)
             {
                 float gravity = IsGrounded == true ? _groundedGravity : _data.FallSpeed;
                 FrameMotion.AddMotion(Vector3.down * gravity * Time.deltaTime);
