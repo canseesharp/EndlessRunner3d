@@ -1,12 +1,15 @@
-public interface IState
+namespace EndlessRunner3d.StateMachine
 {
-    public bool IsPerformed { get; }
+    public interface IState
+    {
+        public bool IsPerformed { get; }
 
-    void Enter();
+        void Enter();
 
-    void Update();
+        void Update();
 
-    void FixedUpdate();
+        void FixedUpdate();
 
-    void Exit();
+        void Exit();
+    }
 }

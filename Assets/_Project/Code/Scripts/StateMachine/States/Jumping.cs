@@ -1,47 +1,51 @@
 using UnityEngine;
+using EndlessRunner3d.SO;
 
-public class Jumping : PlayerState
+namespace EndlessRunner3d.StateMachine.States
 {
-    private readonly Transform _transform;
-
-    private float _progress;
-    private float _startPositionY;
-    private float _elapsedSeconds = 0f;
-
-    public Jumping(PlayerController controller,
-            PlayerAnimator animator,
-            PlayerData data)
-        : base(controller, animator, data)
+    public class Jumping : PlayerState
     {
-        _transform = controller.transform;
-    }
+        private readonly Transform _transform;
 
-    public override void Enter()
-    {
-        Animator.PlayJump();
-        _startPositionY = _transform.position.y;
-        PlayerController.DisableGravity();
-    }
+        private float _progress;
+        private float _startPositionY;
+        private float _elapsedSeconds = 0f;
 
-    public override void Update()
-    {
-        if (_progress > 1f)
+        public Jumping(PlayerController controller,
+                PlayerAnimator animator,
+                PlayerData data)
+            : base(controller, animator, data)
         {
-            IsPerformed = true;
-            return;
+            _transform = controller.transform;
         }
 
-        _elapsedSeconds += Time.deltaTime;
-        _progress = _elapsedSeconds / Data.JumpDuration;
-        float y = _startPositionY + Data.JumpCurve.Evaluate(_progress) * Data.JumpHeight;
-        PlayerController.FrameMotion.AddMotion(Vector3.up * (y - _transform.position.y));
-    }
+        public override void Enter()
+        {
+            Animator.PlayJump();
+            _startPositionY = _transform.position.y;
+            PlayerController.DisableGravity();
+        }
 
-    public override void Exit()
-    {
-        IsPerformed = false;
-        _progress = 0f;
-        _elapsedSeconds = 0f;
-        PlayerController.EnableGravity();
+        public override void Update()
+        {
+            if (_progress > 1f)
+            {
+                IsPerformed = true;
+                return;
+            }
+
+            _elapsedSeconds += Time.deltaTime;
+            _progress = _elapsedSeconds / Data.JumpDuration;
+            float y = _startPositionY + Data.JumpCurve.Evaluate(_progress) * Data.JumpHeight;
+            PlayerController.FrameMotion.AddMotion(Vector3.up * (y - _transform.position.y));
+        }
+
+        public override void Exit()
+        {
+            IsPerformed = false;
+            _progress = 0f;
+            _elapsedSeconds = 0f;
+            PlayerController.EnableGravity();
+        }
     }
 }

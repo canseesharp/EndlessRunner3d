@@ -1,36 +1,40 @@
 using UnityEngine;
+using EndlessRunner3d.SO;
 
-public class Sliding : PlayerState
+namespace EndlessRunner3d.StateMachine.States
 {
-    private float _elapsedSeconds;
-
-    public Sliding(PlayerController controller,
-            PlayerAnimator animator,
-            PlayerData data)
-        : base(controller, animator, data)
+    public class Sliding : PlayerState
     {
-    }
+        private float _elapsedSeconds;
 
-    public override void Enter()
-    {
-        PlayerController.Slide();
-        Animator.PlaySlide();
-    }
-
-    public override void Update()
-    {
-        _elapsedSeconds += Time.deltaTime;
-
-        if (_elapsedSeconds >= Data.SlideDuration)
+        public Sliding(PlayerController controller,
+                PlayerAnimator animator,
+                PlayerData data)
+            : base(controller, animator, data)
         {
-            IsPerformed = true;
         }
-    }
+
+        public override void Enter()
+        {
+            PlayerController.Slide();
+            Animator.PlaySlide();
+        }
+
+        public override void Update()
+        {
+            _elapsedSeconds += Time.deltaTime;
+
+            if (_elapsedSeconds >= Data.SlideDuration)
+            {
+                IsPerformed = true;
+            }
+        }
     
-    public override void Exit()
-    {
-        PlayerController.Stand();
-        _elapsedSeconds = 0f;
-        IsPerformed = false;
+        public override void Exit()
+        {
+            PlayerController.Stand();
+            _elapsedSeconds = 0f;
+            IsPerformed = false;
+        }
     }
 }

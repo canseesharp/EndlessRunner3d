@@ -1,13 +1,16 @@
 using System;
 
-public class FuncPredicate : IPredicate
+namespace EndlessRunner3d.StateMachine
 {
-    private readonly Func<bool> _func;
-
-    public FuncPredicate(Func<bool> func)
+    public class FuncPredicate : IPredicate
     {
-        _func = func;
-    }
+        private readonly Func<bool> _func;
 
-    public bool Evaluate() => _func.Invoke();
+        public FuncPredicate(Func<bool> func)
+        {
+            _func = func;
+        }
+
+        public bool Evaluate() => _func.Invoke();
+    }
 }

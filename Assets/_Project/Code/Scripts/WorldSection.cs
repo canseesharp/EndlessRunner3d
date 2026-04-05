@@ -1,33 +1,37 @@
 using UnityEngine;
 using UnityEngine.Pool;
+using EndlessRunner3d.SO;
 
-public class WorldSection : MonoBehaviour
+namespace EndlessRunner3d
 {
-    [SerializeField] private SectionData _data;
-    private IObjectPool<WorldSection> _poolContainer;
-    private GameDifficulty _gameDifficulty;
-
-    public void Init(IObjectPool<WorldSection> pool, GameDifficulty difficulty)
+    public class WorldSection : MonoBehaviour
     {
-        _poolContainer = pool;
-        _gameDifficulty = difficulty;
-    }
+        [SerializeField] private SectionData _data;
+        private IObjectPool<WorldSection> _poolContainer;
+        private GameDifficulty _gameDifficulty;
 
-    public void ReleaseToPool()
-    {
-        gameObject.SetActive(false);
-        _poolContainer?.Release(this);
-    }
-
-    private void Update()
-    {
-        if (_gameDifficulty != null)
+        public void Init(IObjectPool<WorldSection> pool, GameDifficulty difficulty)
         {
-            transform.Translate(Vector3.back * (_data.Speed * _gameDifficulty.Multiplier * Time.deltaTime));
+            _poolContainer = pool;
+            _gameDifficulty = difficulty;
         }
-        else
+
+        public void ReleaseToPool()
         {
-            transform.Translate(Vector3.back * (_data.Speed * Time.deltaTime));
+            gameObject.SetActive(false);
+            _poolContainer?.Release(this);
+        }
+
+        private void Update()
+        {
+            if (_gameDifficulty != null)
+            {
+                transform.Translate(Vector3.back * (_data.Speed * _gameDifficulty.Multiplier * Time.deltaTime));
+            }
+            else
+            {
+                transform.Translate(Vector3.back * (_data.Speed * Time.deltaTime));
+            }
         }
     }
 }

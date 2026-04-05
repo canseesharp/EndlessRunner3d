@@ -1,14 +1,19 @@
-public class Falling : PlayerState
-{
-    public Falling(PlayerController controller,
-            PlayerAnimator animator,
-            PlayerData data)
-        : base(controller, animator, data)
-    {
-    }
+using EndlessRunner3d.SO;
 
-    public override void Enter()
+namespace EndlessRunner3d.StateMachine.States
+{
+    public class Falling : PlayerState
     {
-        Animator.PlayFalling();
+        public Falling(PlayerController controller,
+                PlayerAnimator animator,
+                PlayerData data)
+            : base(controller, animator, data)
+        {
+        }
+
+        public override void Enter()
+        {
+            Animator.PlayFalling();
+        }
     }
 }

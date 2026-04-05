@@ -1,44 +1,49 @@
 using UnityEngine;
+using EndlessRunner3d.SO;
+using EndlessRunner3d.StateMachine.Machines;
 
-[RequireComponent(typeof(PlayerStateMachine), typeof(Animator), typeof(PlayerController))]
-public class Player : MonoBehaviour
+namespace EndlessRunner3d
 {
-    [SerializeField] private PlayerData _data;
-
-    private PlayerStateMachine _stateMachine;
-    private PlayerAnimator _animator;
-    private PlayerInput _playerInput;
-
-    private void Awake()
+    [RequireComponent(typeof(PlayerStateMachine), typeof(Animator), typeof(PlayerController))]
+    public class Player : MonoBehaviour
     {
-        _data.Init();
+        [SerializeField] private PlayerData _data;
 
-        var controller = GetComponent<PlayerController>();
-        controller.Init(_data);
+        private PlayerStateMachine _stateMachine;
+        private PlayerAnimator _animator;
+        private PlayerInput _playerInput;
 
-        _animator = new(GetComponent<Animator>());
+        private void Awake()
+        {
+            _data.Init();
 
-        _stateMachine = GetComponent<PlayerStateMachine>();
-        _stateMachine.Init(_data, _animator, controller);
+            var controller = GetComponent<PlayerController>();
+            controller.Init(_data);
 
-        _playerInput = new();
-    }
+            _animator = new(GetComponent<Animator>());
 
-    private void OnEnable()
-    {
-        _playerInput.Jumped += _stateMachine.OnJumpButtonPressed;
-        _playerInput.Slided += _stateMachine.OnSlideButtonPressed;
-        _playerInput.MovedLeft += _stateMachine.OnShiftLeftButtonPressed;
-        _playerInput.MovedRight += _stateMachine.OnShiftRightButtonPressed;
-        _playerInput.Enable();
-    }
+            _stateMachine = GetComponent<PlayerStateMachine>();
+            _stateMachine.Init(_data, _animator, controller);
 
-    private void OnDisable()
-    {
-        _playerInput.Jumped -= _stateMachine.OnJumpButtonPressed;
-        _playerInput.Slided -= _stateMachine.OnSlideButtonPressed;
-        _playerInput.MovedLeft -= _stateMachine.OnShiftLeftButtonPressed;
-        _playerInput.MovedRight -= _stateMachine.OnShiftRightButtonPressed;
-        _playerInput.Disable();
+            _playerInput = new();
+        }
+
+        private void OnEnable()
+        {
+            _playerInput.Jumped += _stateMachine.OnJumpButtonPressed;
+            _playerInput.Slided += _stateMachine.OnSlideButtonPressed;
+            _playerInput.MovedLeft += _stateMachine.OnShiftLeftButtonPressed;
+            _playerInput.MovedRight += _stateMachine.OnShiftRightButtonPressed;
+            _playerInput.Enable();
+        }
+
+        private void OnDisable()
+        {
+            _playerInput.Jumped -= _stateMachine.OnJumpButtonPressed;
+            _playerInput.Slided -= _stateMachine.OnSlideButtonPressed;
+            _playerInput.MovedLeft -= _stateMachine.OnShiftLeftButtonPressed;
+            _playerInput.MovedRight -= _stateMachine.OnShiftRightButtonPressed;
+            _playerInput.Disable();
+        }
     }
 }

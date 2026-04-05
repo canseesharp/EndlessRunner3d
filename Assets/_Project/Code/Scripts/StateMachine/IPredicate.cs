@@ -1,4 +1,7 @@
-public interface IPredicate
+namespace EndlessRunner3d.StateMachine
 {
-    bool Evaluate();
+    public interface IPredicate
+    {
+        bool Evaluate();
+    }
 }

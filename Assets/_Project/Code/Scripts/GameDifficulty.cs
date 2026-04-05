@@ -1,31 +1,34 @@
 using UnityEngine;
 
-public class GameDifficulty : MonoBehaviour
+namespace EndlessRunner3d
 {
-    [SerializeField] private float _maxMultiplier;
-    [SerializeField] private float _secondsToReachMax;
-    [SerializeField] private AnimationCurve _difficultyCurve;
-
-    private float _elapsedSeconds;
-    private float _progress;
-
-    public float Multiplier { get; private set; }
-
-    public void OnDead()
+    public class GameDifficulty : MonoBehaviour
     {
-        Multiplier = 0f;
-        enabled = false;
-    }
+        [SerializeField] private float _maxMultiplier;
+        [SerializeField] private float _secondsToReachMax;
+        [SerializeField] private AnimationCurve _difficultyCurve;
 
-    private void Update()
-    {
-        if (_progress >= 1f)
+        private float _elapsedSeconds;
+        private float _progress;
+
+        public float Multiplier { get; private set; }
+
+        public void OnDead()
         {
-            return;
+            Multiplier = 0f;
+            enabled = false;
         }
-        _elapsedSeconds += Time.deltaTime;
-        _progress = _elapsedSeconds / _secondsToReachMax;
 
-        Multiplier = _difficultyCurve.Evaluate(_progress) * _maxMultiplier;
+        private void Update()
+        {
+            if (_progress >= 1f)
+            {
+                return;
+            }
+            _elapsedSeconds += Time.deltaTime;
+            _progress = _elapsedSeconds / _secondsToReachMax;
+
+            Multiplier = _difficultyCurve.Evaluate(_progress) * _maxMultiplier;
+        }
     }
 }

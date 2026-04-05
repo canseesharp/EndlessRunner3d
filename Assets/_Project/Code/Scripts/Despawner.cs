@@ -1,16 +1,19 @@
 using System;
 using UnityEngine;
 
-public class Despawner : MonoBehaviour
+namespace EndlessRunner3d
 {
-    public event Action<WorldSection> SectionDespawned;
-
-    private void OnTriggerEnter(Collider other)
+    public class Despawner : MonoBehaviour
     {
-        if (other.TryGetComponent(out WorldSection section))
+        public event Action<WorldSection> SectionDespawned;
+
+        private void OnTriggerEnter(Collider other)
         {
-            section.ReleaseToPool();
-            SectionDespawned?.Invoke(section);
+            if (other.TryGetComponent(out WorldSection section))
+            {
+                section.ReleaseToPool();
+                SectionDespawned?.Invoke(section);
+            }
         }
     }
 }

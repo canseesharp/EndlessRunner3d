@@ -1,5 +1,8 @@
-public interface ITransition
+namespace EndlessRunner3d.StateMachine
 {
-    IState To { get; }
-    IPredicate Condition { get; }
+    public interface ITransition
+    {
+        IState To { get; }
+        IPredicate Condition { get; }
+    }
 }
