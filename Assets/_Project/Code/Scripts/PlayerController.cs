@@ -9,18 +9,17 @@ namespace EndlessRunner3d
     {
         [SerializeField] private GameDifficulty _difficulty;
         [SerializeField] private SectionData _sectionData;
-        [SerializeField] private Transform _headPosition;
-        [SerializeField] private Transform _slidingHeadPosition;
+        [SerializeField] private LayerMask _playerLayer;
+        [SerializeField] private Transform _headBone;
 
         private PlayerData _data;
         private CharacterController _characterController;
-        private readonly float _rayLength = 0.5f;
+        private readonly float _rayLength = 0.3f;
         private float _coyoteTime;
         private float _groundedGravity;
         private bool _hasGravity = true;
         private CapsuleDimensions _standCapsule;
         private CapsuleDimensions _slideCapsule;
-        private Transform _collisionCheckPoint;
 
         public bool IsGrounded => _coyoteTime > 0f;
         public FrameMotion FrameMotion { get; private set; }
@@ -40,13 +39,11 @@ namespace EndlessRunner3d
         public void Slide()
         {
             _slideCapsule.ApplyDimensionsTo(_characterController);
-            _collisionCheckPoint = _slidingHeadPosition;
         }
 
         public void Stand()
         {
             _standCapsule.ApplyDimensionsTo(_characterController);
-            _collisionCheckPoint = _headPosition;
         }
 
         private void Awake()
@@ -58,7 +55,6 @@ namespace EndlessRunner3d
                     _characterController.center.z),
                     _characterController.height * 0.5f);
             FrameMotion = new();
-            _collisionCheckPoint = _headPosition;
         }
 
         private void Update()
@@ -91,19 +87,13 @@ namespace EndlessRunner3d
             }
         }
 
-        private void MoveForward()
-        {
-            FrameMotion.AddMotion(Vector3.forward * (_sectionData.Speed * _difficulty.Multiplier * Time.deltaTime));
-        }
+        private void MoveForward() => FrameMotion.AddMotion(Vector3.forward * (_sectionData.Speed * _difficulty.Multiplier * Time.deltaTime));
 
         private void ClampZ() => transform.position = new Vector3(transform.position.x, transform.position.y, 0f);
 
         private void OnControllerColliderHit(ControllerColliderHit hit)
         {
-            if (hit.moveDirection != Vector3.down &&
-                    (Physics.Raycast(_collisionCheckPoint.position, Vector3.forward, _rayLength)
-                    || Physics.Raycast(_collisionCheckPoint.position, Vector3.right, _rayLength)
-                    || Physics.Raycast(_collisionCheckPoint.position, Vector3.left, _rayLength)))
+            if (hit.moveDirection != Vector3.down && Physics.CheckSphere(_headBone.position, _rayLength, ~_playerLayer))
             {
                 _difficulty.OnDead();
                 ObstacleHit?.Invoke();
