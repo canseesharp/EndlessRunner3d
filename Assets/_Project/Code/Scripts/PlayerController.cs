@@ -8,17 +8,15 @@ namespace EndlessRunner3d
     public class PlayerController : MonoBehaviour
     {
         [SerializeField] private GameDifficulty _difficulty;
-        [SerializeField] private SectionData _sectionData;
         [SerializeField] private LayerMask _playerLayer;
         [SerializeField] private Transform _headBone;
 
-        private PlayerData _data;
         private CharacterController _characterController;
-        private readonly float _rayLength = 0.3f;
-        private float _coyoteTime;
-        private float _groundedGravity;
+        private PlayerData _data;
         private CapsuleDimensions _standCapsule;
         private CapsuleDimensions _slideCapsule;
+        private readonly float _collisionRadius = 0.3f;
+        private float _coyoteTime;
 
         public bool IsGrounded => _coyoteTime > 0f;
         public FrameMotion FrameMotion { get; private set; }
@@ -29,7 +27,6 @@ namespace EndlessRunner3d
         public void Init(PlayerData data)
         {
             _data = data;
-            _groundedGravity = _data.FallSpeed * 0.2f;
         }
 
         public void Slide() => _slideCapsule.ApplyDimensionsTo(_characterController);
@@ -72,18 +69,18 @@ namespace EndlessRunner3d
         {
             if (HasGravity == true)
             {
-                float gravity = IsGrounded == true ? _groundedGravity : _data.FallSpeed;
+                float gravity = IsGrounded == true ? _data.GroundedGravity : _data.FallSpeed;
                 FrameMotion.AddMotion(Vector3.down * gravity * Time.deltaTime);
             }
         }
 
-        private void MoveForward() => FrameMotion.AddMotion(Vector3.forward * (_sectionData.Speed * _difficulty.Multiplier * Time.deltaTime));
+        private void MoveForward() => FrameMotion.AddMotion(Vector3.forward * (_difficulty.WorldSpeed * Time.deltaTime));
 
         private void ClampZ() => transform.position = new Vector3(transform.position.x, transform.position.y, 0f);
 
         private void OnControllerColliderHit(ControllerColliderHit hit)
         {
-            if (hit.moveDirection != Vector3.down && Physics.CheckSphere(_headBone.position, _rayLength, ~_playerLayer))
+            if (hit.moveDirection != Vector3.down && Physics.CheckSphere(_headBone.position, _collisionRadius, ~_playerLayer))
             {
                 _difficulty.OnDead();
                 ObstacleHit?.Invoke();

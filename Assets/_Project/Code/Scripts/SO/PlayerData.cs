@@ -5,7 +5,9 @@ namespace EndlessRunner3d.SO
     [CreateAssetMenu(fileName = "PlayerData", menuName = "Scriptable Objects/PlayerData")]
     public class PlayerData : ScriptableObject
     {
-        [SerializeField] private float _fallSpeed;
+        [Header("Gravity")]
+        [SerializeField] private float _midairGravity;
+        [SerializeField] private float _groundedGravity;
 
         [Header("Shift")]
         [SerializeField] private float _shiftDuration;
@@ -25,7 +27,9 @@ namespace EndlessRunner3d.SO
 
         public Line Line { get; private set; }
 
-        public float FallSpeed => _fallSpeed;
+        public float FallSpeed => _midairGravity;
+
+        public float GroundedGravity => _groundedGravity;
 
         public float ShiftDuration => _shiftDuration;
 

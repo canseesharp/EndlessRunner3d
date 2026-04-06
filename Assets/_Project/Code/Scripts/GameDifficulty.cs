@@ -7,11 +7,14 @@ namespace EndlessRunner3d
         [SerializeField] private float _maxMultiplier;
         [SerializeField] private float _secondsToReachMax;
         [SerializeField] private AnimationCurve _difficultyCurve;
+        [SerializeField] private float _baseWorldSpeed;
 
         private float _elapsedSeconds;
         private float _progress;
 
         public float Multiplier { get; private set; }
+
+        public float WorldSpeed => _baseWorldSpeed * Multiplier;
 
         public void OnDead()
         {
