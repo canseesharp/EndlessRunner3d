@@ -557,7 +557,7 @@ GameObject:
   - component: {fileID: 678940963179475931}
   - component: {fileID: 7287546540587784819}
   - component: {fileID: 3210970548239240875}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -641,7 +641,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   _difficulty: {fileID: 0}
-  _sectionData: {fileID: 11400000, guid: 4df700ed0e8adac8cae530c7462590a9, type: 2}
+  _playerLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  _headBone: {fileID: 7220212158318328686}
 --- !u!114 &7287546540587784819
 MonoBehaviour:
   m_ObjectHideFlags: 0
