@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db9fbd0cf1b0bf8808e94096901cee34, type: 3}
   m_Name: PlayerData
   m_EditorClassIdentifier: Assembly-CSharp::PlayerData
-  _fallSpeed: 7
+  _midairGravity: 9.8
+  _groundedGravity: 2
   _shiftDuration: 0.4
   _shiftCurve:
     serializedVersion: 2

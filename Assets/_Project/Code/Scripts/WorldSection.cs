@@ -1,12 +1,10 @@
 using UnityEngine;
 using UnityEngine.Pool;
-using EndlessRunner3d.SO;
 
 namespace EndlessRunner3d
 {
     public class WorldSection : MonoBehaviour
     {
-        [SerializeField] private SectionData _data;
         private IObjectPool<WorldSection> _poolContainer;
         private GameDifficulty _gameDifficulty;
 
@@ -24,14 +22,7 @@ namespace EndlessRunner3d
 
         private void Update()
         {
-            if (_gameDifficulty != null)
-            {
-                transform.Translate(Vector3.back * (_data.Speed * _gameDifficulty.Multiplier * Time.deltaTime));
-            }
-            else
-            {
-                transform.Translate(Vector3.back * (_data.Speed * Time.deltaTime));
-            }
+            transform.Translate(Vector3.back * (_gameDifficulty.WorldSpeed * Time.deltaTime));
         }
     }
 }
