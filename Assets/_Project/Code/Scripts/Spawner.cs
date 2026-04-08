@@ -7,13 +7,14 @@ namespace EndlessRunner3d
         [SerializeField] private Despawner _despawner;
         [SerializeField] private GameDifficulty _gameDifficulty;
         [SerializeField] private WorldSection _startSectionTemplate;
-        [SerializeField] private SectionPool[] _sectionPools;
 
+        private SectionPool[] _sectionPools;
         private readonly float _sectionLength = 36f;
         private readonly int _visibleSectionCount = 5;
 
         private void Awake()
         {
+            _sectionPools = GetComponentsInChildren<SectionPool>();
             foreach (var pool in _sectionPools)
             {
                 pool.Init(_gameDifficulty);
