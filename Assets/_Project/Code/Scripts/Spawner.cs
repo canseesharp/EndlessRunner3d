@@ -45,9 +45,9 @@ namespace EndlessRunner3d
         {
             int poolNumber = Random.Range(0, _sectionPools.Length);
             WorldSection nextSection = _sectionPools[poolNumber].Get();
-            nextSection.gameObject.SetActive(true);
             nextSection.transform.position =
                 section.transform.position + new Vector3(0f, 0f, _sectionLength * _visibleSectionCount);
+            nextSection.gameObject.SetActive(true);
         }
     }
 }
