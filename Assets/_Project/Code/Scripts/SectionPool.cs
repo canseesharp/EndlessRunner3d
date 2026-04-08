@@ -25,6 +25,7 @@ namespace EndlessRunner3d
         {
             WorldSection instance = Instantiate(_template, Vector3.zero, Quaternion.identity);
             instance.Init(_objectPool, difficulty);
+            instance.gameObject.SetActive(false);
             return instance;
         }
     }
