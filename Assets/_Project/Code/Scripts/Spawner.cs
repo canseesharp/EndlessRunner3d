@@ -9,8 +9,8 @@ namespace EndlessRunner3d
         [SerializeField] private WorldSection _startSectionTemplate;
 
         private SectionPool[] _sectionPools;
-        private readonly float _sectionLength = 36f;
-        private readonly int _visibleSectionCount = 5;
+        private readonly float _sectionLength = 120f;
+        private readonly int _visibleSectionCount = 2;
 
         private void Awake()
         {
