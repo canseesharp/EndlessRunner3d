@@ -10,5 +10,10 @@ namespace EndlessRunner3d.StateMachine.States
             : base(controller, animator, data)
         {
         }
+
+        public override void Enter()
+        {
+            Animator.PlayPassOut();
+        }
     }
 }

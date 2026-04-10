@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 409baa76686eab077a3ab9e0e83d44e6
+guid: 1eda3a14e31aecfe3a0ad831c02cef2f
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
@@ -62,9 +62,38 @@ ModelImporter:
     - serializedVersion: 16
       name: Jump
       takeName: Player|rigAction
-      internalID: 1659031936179880354
+      internalID: 8098901401296725893
       firstFrame: 31
-      lastFrame: 45
+      lastFrame: 40
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Falling
+      takeName: Player|rigAction
+      internalID: -2208903945352706537
+      firstFrame: 40
+      lastFrame: 90
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -91,7 +120,7 @@ ModelImporter:
     - serializedVersion: 16
       name: Slide
       takeName: Player|rigAction
-      internalID: -2517902902526487418
+      internalID: -5035871641086919230
       firstFrame: 91
       lastFrame: 120
       wrapMode: 0
@@ -120,7 +149,7 @@ ModelImporter:
     - serializedVersion: 16
       name: ShiftRight
       takeName: Player|rigAction
-      internalID: 1003925480348944041
+      internalID: 5470568917863292582
       firstFrame: 121
       lastFrame: 135
       wrapMode: 0
@@ -149,7 +178,7 @@ ModelImporter:
     - serializedVersion: 16
       name: ShiftLeft
       takeName: Player|rigAction
-      internalID: -8792492870942820309
+      internalID: -6582821936478192306
       firstFrame: 136
       lastFrame: 150
       wrapMode: 0
@@ -176,11 +205,11 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Falling
+      name: PassOut
       takeName: Player|rigAction
-      internalID: -6582821936478192306
-      firstFrame: 46
-      lastFrame: 90
+      internalID: 305449148786312008
+      firstFrame: 151
+      lastFrame: 180
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

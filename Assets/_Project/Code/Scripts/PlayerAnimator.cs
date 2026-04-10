@@ -14,7 +14,7 @@ namespace EndlessRunner3d
         private readonly int _slide = Animator.StringToHash("Slide");
         private readonly int _shiftLeft = Animator.StringToHash("ShiftLeft");
         private readonly int _shiftRight = Animator.StringToHash("ShiftRight");
-        private readonly int _dead = Animator.StringToHash("Dead");
+        private readonly int _passOut = Animator.StringToHash("PassOut");
 
         public PlayerAnimator(Animator animator)
         {
@@ -72,10 +72,10 @@ namespace EndlessRunner3d
             }
         }
 
-        public void PlayDead()
+        public void PlayPassOut()
         {
-            _animator.CrossFade(_dead, _crossFadeDuration);
-            _currentAnimation = _dead;
+            _animator.CrossFade(_passOut, _crossFadeDuration);
+            _currentAnimation = _passOut;
         }
     }
 }
