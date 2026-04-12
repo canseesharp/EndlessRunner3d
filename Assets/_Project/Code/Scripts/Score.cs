@@ -10,6 +10,8 @@ namespace EndlessRunner3d
         private readonly float _baseMultiplier = 2f;
         private float _score;
 
+        public float Value => _score;
+
         public event Action<float> ScoreChanged;
 
         private void Update()
