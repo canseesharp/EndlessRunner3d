@@ -1,12 +1,12 @@
 using TMPro;
 using UnityEngine;
 
-namespace EndlessRunner3d.UI
+namespace EndlessRunner3d
 {
-    public class ScoreUI : MonoBehaviour
+    public class GameOverUI : MonoBehaviour
     {
         [SerializeField] private Score _score;
-        [SerializeField] private GameObject _scorePanel;
+        [SerializeField] private GameObject _gameOverPanel;
         [SerializeField] private TMP_Text _scoreText;
         [SerializeField] private PlayerController _playerController;
 
@@ -14,24 +14,18 @@ namespace EndlessRunner3d.UI
 
         private void OnEnable()
         {
-            _score.ScoreChanged += OnScoreChanged;
             _playerController.ObstacleHit += OnObstacleHit;
         }
 
         private void OnDisable()
         {
-            _score.ScoreChanged -= OnScoreChanged;
             _playerController.ObstacleHit -= OnObstacleHit;
-        }
-
-        private void OnScoreChanged(float score)
-        {
-            _scoreText.text = score.ToString(_format);
         }
 
         private void OnObstacleHit()
         {
-            _scorePanel.SetActive(false);
+            _scoreText.text = _score.Value.ToString(_format);
+            _gameOverPanel.SetActive(true);
         }
     }
 }
