@@ -34,7 +34,7 @@ namespace EndlessRunner3d.StateMachine.Machines
 
         public void OnShiftLeftButtonPressed()
         {
-            if (_data.TryShiftLeft())
+            if (_horizontalMachine.Current is not Shifting && _data.TryShiftLeft())
             {
                 _shiftPredicate.SetFlag();
             }
@@ -42,7 +42,7 @@ namespace EndlessRunner3d.StateMachine.Machines
 
         public void OnShiftRightButtonPressed()
         {
-            if (_data.TryShiftRight())
+            if (_horizontalMachine.Current is not Shifting &&_data.TryShiftRight())
             {
                 _shiftPredicate.SetFlag();
             }

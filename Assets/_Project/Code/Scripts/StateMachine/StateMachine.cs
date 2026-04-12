@@ -9,6 +9,8 @@ namespace EndlessRunner3d.StateMachine
         private Dictionary<Type, StateNode> _nodes = new();
         private HashSet<ITransition> _anyTransitions = new();
 
+        public IState Current => _current.State;
+
         public StateMachine(IState initialState)
         {
             _current = GetOrAddNode(initialState);
