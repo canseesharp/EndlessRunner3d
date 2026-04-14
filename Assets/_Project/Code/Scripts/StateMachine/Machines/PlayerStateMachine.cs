@@ -15,6 +15,7 @@ namespace EndlessRunner3d.StateMachine.Machines
         private TimeFlagPredicate _jumpPredicate;
         private TimeFlagPredicate _shiftPredicate;
         private TimeFlagPredicate _slidePredicate;
+        private bool _gameStarted;
         private bool _isDead;
 
         public void Init(PlayerData data, PlayerAnimator animator, PlayerController controller)
@@ -25,6 +26,11 @@ namespace EndlessRunner3d.StateMachine.Machines
             _jumpPredicate = new TimeFlagPredicate(data.JumpBuffer);
             _shiftPredicate = new TimeFlagPredicate(data.ShiftBuffer);
             _slidePredicate = new TimeFlagPredicate(data.SlideBuffer);
+        }
+
+        public void OnGameStart()
+        {
+            _gameStarted = true;
         }
 
         public void OnJumpButtonPressed()
@@ -89,7 +95,8 @@ namespace EndlessRunner3d.StateMachine.Machines
         {
             var idle = new Idle(_controller, _animator, _data);
             var running = new Running(_controller, _animator, _data);
-            _verticalMachine = new(running);
+            var jumpingJacks = new Idle(_controller, _animator, _data);
+            _verticalMachine = new(jumpingJacks);
             var jumping = new Jumping(_controller, _animator, _data);
             var falling = new Falling(_controller, _animator, _data);
             var shifting = new Shifting(_controller, _animator, _data);
@@ -97,6 +104,7 @@ namespace EndlessRunner3d.StateMachine.Machines
             var dead = new Dead(_controller, _animator, _data);
             _horizontalMachine = new(idle);
 
+            _verticalMachine.AddTransition(jumpingJacks, running, new FuncPredicate(() => _gameStarted == true));
             _verticalMachine.AddTransition(running, jumping, _jumpPredicate);
             _verticalMachine.AddTransition(jumping, falling, new FuncPredicate(() => jumping.IsPerformed == true));
             _verticalMachine.AddTransition(jumping, running, new FuncPredicate(() => _controller.IsGrounded == true && jumping.IsPerformed == true));

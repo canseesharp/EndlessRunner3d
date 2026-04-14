@@ -12,6 +12,14 @@ namespace EndlessRunner3d
         private PlayerStateMachine _stateMachine;
         private PlayerAnimator _animator;
         private PlayerInput _playerInput;
+        private bool _gameStarted;
+
+        public void OnGameStart()
+        {
+            _gameStarted = true;
+            _stateMachine.OnGameStart();
+            _playerInput.Enable();
+        }
 
         private void Awake()
         {
@@ -34,7 +42,10 @@ namespace EndlessRunner3d
             _playerInput.Slided += _stateMachine.OnSlideButtonPressed;
             _playerInput.MovedLeft += _stateMachine.OnShiftLeftButtonPressed;
             _playerInput.MovedRight += _stateMachine.OnShiftRightButtonPressed;
-            _playerInput.Enable();
+            if (_gameStarted == true)
+            {
+                _playerInput.Enable();
+            }
         }
 
         private void OnDisable()
