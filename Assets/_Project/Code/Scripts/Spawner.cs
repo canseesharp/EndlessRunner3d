@@ -1,12 +1,14 @@
 using UnityEngine;
+using Zenject;
 
 namespace EndlessRunner3d
 {
     public class Spawner : MonoBehaviour
     {
         [SerializeField] private Despawner _despawner;
-        [SerializeField] private GameDifficulty _gameDifficulty;
         [SerializeField] private WorldSection _startSectionTemplate;
+
+        [Inject] private GameDifficulty _gameDifficulty;
 
         private SectionPool[] _sectionPools;
         private readonly float _sectionLength = 120f;
@@ -15,10 +17,6 @@ namespace EndlessRunner3d
         private void Awake()
         {
             _sectionPools = GetComponentsInChildren<SectionPool>();
-            foreach (var pool in _sectionPools)
-            {
-                pool.Init(_gameDifficulty);
-            }
         }
 
         private void Start()
