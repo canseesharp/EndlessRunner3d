@@ -1,11 +1,12 @@
 using System;
 using UnityEngine;
+using Zenject;
 
 namespace EndlessRunner3d
 {
     public class Score : MonoBehaviour
     {
-        [SerializeField] private GameDifficulty _difficulty;
+        [Inject] private GameDifficulty _gameDifficulty;
 
         private readonly float _baseMultiplier = 2f;
         private float _score;
@@ -16,7 +17,7 @@ namespace EndlessRunner3d
 
         private void Update()
         {
-            _score += _baseMultiplier * _difficulty.Multiplier * Time.deltaTime;
+            _score += _baseMultiplier * _gameDifficulty.Multiplier * Time.deltaTime;
             ScoreChanged?.Invoke(_score);
         }
     }

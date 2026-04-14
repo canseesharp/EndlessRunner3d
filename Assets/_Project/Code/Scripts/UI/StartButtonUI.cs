@@ -1,6 +1,6 @@
-using EndlessRunner3d.StateMachine.Machines;
 using Unity.Cinemachine;
 using UnityEngine;
+using Zenject;
 
 namespace EndlessRunner3d
 {
@@ -9,8 +9,9 @@ namespace EndlessRunner3d
         [SerializeField] private GameObject _scorePanel;
         [SerializeField] private GameObject _mainMenu;
         [SerializeField] private CinemachineCamera _gameCamera;
-        [SerializeField] private GameDifficulty _gameDifficulty;
         [SerializeField] private Player _player;
+
+        [Inject] private GameDifficulty _gameDifficulty;
 
         protected override void OnButtonClick()
         {

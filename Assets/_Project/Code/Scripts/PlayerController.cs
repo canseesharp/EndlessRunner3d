@@ -1,15 +1,17 @@
 using System;
 using UnityEngine;
 using EndlessRunner3d.SO;
+using Zenject;
 
 namespace EndlessRunner3d
 {
     [RequireComponent(typeof(CharacterController))]
     public class PlayerController : MonoBehaviour
     {
-        [SerializeField] private GameDifficulty _difficulty;
         [SerializeField] private LayerMask _playerLayer;
         [SerializeField] private Transform _headBone;
+
+        [Inject] private GameDifficulty _gameDifficulty;
 
         private CharacterController _characterController;
         private PlayerData _data;
@@ -74,7 +76,7 @@ namespace EndlessRunner3d
             }
         }
 
-        private void MoveForward() => FrameMotion.AddMotion(Vector3.forward * (_difficulty.WorldSpeed * Time.deltaTime));
+        private void MoveForward() => FrameMotion.AddMotion(Vector3.forward * (_gameDifficulty.WorldSpeed * Time.deltaTime));
 
         private void ClampZ() => transform.position = new Vector3(transform.position.x, transform.position.y, 0f);
 
@@ -82,7 +84,7 @@ namespace EndlessRunner3d
         {
             if (hit.moveDirection != Vector3.down && Physics.CheckSphere(_headBone.position, _collisionRadius, ~_playerLayer))
             {
-                _difficulty.OnDead();
+                _gameDifficulty.OnDead();
                 ObstacleHit?.Invoke();
             }
         }
