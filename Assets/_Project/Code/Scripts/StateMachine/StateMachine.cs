@@ -11,6 +11,8 @@ namespace EndlessRunner3d.StateMachine
 
         public IState Current => _current.State;
 
+        public event Action<IState> StateChanged;
+
         public StateMachine(IState initialState)
         {
             _current = GetOrAddNode(initialState);
@@ -54,6 +56,7 @@ namespace EndlessRunner3d.StateMachine
                 _current.State?.Exit();
                 _current = nextState;
                 _current.State?.Enter();
+                StateChanged?.Invoke(state);
             }
         }
 

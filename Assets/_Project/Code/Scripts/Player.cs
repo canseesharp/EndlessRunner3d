@@ -1,32 +1,20 @@
 using UnityEngine;
 using EndlessRunner3d.StateMachine.Machines;
+using Zenject;
 
 namespace EndlessRunner3d
 {
-    [RequireComponent(typeof(PlayerStateMachine), typeof(Animator), typeof(PlayerController))]
+    [RequireComponent(typeof(PlayerStateMachine))]
     public class Player : MonoBehaviour
     {
-        private PlayerStateMachine _stateMachine;
-        private PlayerAnimator _animator;
-        private PlayerInput _playerInput;
-        private bool _gameStarted;
+        [Inject] private IGameStarter _gameStarter;
 
-        public void OnGameStart()
-        {
-            _gameStarted = true;
-            _stateMachine.OnGameStart();
-            _playerInput.Enable();
-        }
+        private PlayerStateMachine _stateMachine;
+        private PlayerInput _playerInput;
 
         private void Awake()
         {
-            var controller = GetComponent<PlayerController>();
-
-            _animator = new(GetComponent<Animator>());
-
             _stateMachine = GetComponent<PlayerStateMachine>();
-            _stateMachine.Init(_animator, controller);
-
             _playerInput = new();
         }
 
@@ -36,7 +24,8 @@ namespace EndlessRunner3d
             _playerInput.Slided += _stateMachine.OnSlideButtonPressed;
             _playerInput.MovedLeft += _stateMachine.OnShiftLeftButtonPressed;
             _playerInput.MovedRight += _stateMachine.OnShiftRightButtonPressed;
-            if (_gameStarted == true)
+            _gameStarter.GameStarted += OnGameStart;
+            if (_gameStarter.IsStarted == true)
             {
                 _playerInput.Enable();
             }
@@ -48,7 +37,14 @@ namespace EndlessRunner3d
             _playerInput.Slided -= _stateMachine.OnSlideButtonPressed;
             _playerInput.MovedLeft -= _stateMachine.OnShiftLeftButtonPressed;
             _playerInput.MovedRight -= _stateMachine.OnShiftRightButtonPressed;
+            _gameStarter.GameStarted -= OnGameStart;
             _playerInput.Disable();
+        }
+
+        private void OnGameStart()
+        {
+            _gameStarter.GameStarted -= OnGameStart;
+            _playerInput.Enable();
         }
     }
 }

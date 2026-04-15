@@ -79,7 +79,6 @@ namespace EndlessRunner3d
         {
             if (hit.moveDirection != Vector3.down && Physics.CheckSphere(_headBone.position, _collisionRadius, ~_playerLayer))
             {
-                _gameDifficulty.OnDead();
                 ObstacleHit?.Invoke();
             }
         }

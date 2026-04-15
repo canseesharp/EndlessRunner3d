@@ -1,35 +1,25 @@
 using UnityEngine;
 using EndlessRunner3d.SO;
-using EndlessRunner3d.StateMachine.States;
+using EndlessRunner3d.StateMachine.States.Player;
 using Zenject;
 
 namespace EndlessRunner3d.StateMachine.Machines
 {
+    [RequireComponent(typeof(Animator), typeof(PlayerController))]
     public class PlayerStateMachine : MonoBehaviour
     {
         [Inject] private PlayerData _data;
+        [Inject] private IGameStarter _gameStarter;
 
-        private PlayerAnimator _animator;
         private PlayerController _controller;
+        private PlayerAnimator _animator;
         private StateMachine _verticalMachine;
         private StateMachine _horizontalMachine;
 
         private TimeFlagPredicate _jumpPredicate;
         private TimeFlagPredicate _shiftPredicate;
         private TimeFlagPredicate _slidePredicate;
-        private bool _gameStarted;
         private bool _isDead;
-
-        public void Init(PlayerAnimator animator, PlayerController controller)
-        {
-            _animator = animator;
-            _controller = controller;
-        }
-
-        public void OnGameStart()
-        {
-            _gameStarted = true;
-        }
 
         public void OnJumpButtonPressed()
         {
@@ -59,6 +49,8 @@ namespace EndlessRunner3d.StateMachine.Machines
 
         private void Awake()
         {
+            _animator = new(GetComponent<Animator>());
+            _controller = GetComponent<PlayerController>();
             _jumpPredicate = new TimeFlagPredicate(_data.JumpBuffer);
             _shiftPredicate = new TimeFlagPredicate(_data.ShiftBuffer);
             _slidePredicate = new TimeFlagPredicate(_data.SlideBuffer);
@@ -105,7 +97,7 @@ namespace EndlessRunner3d.StateMachine.Machines
             var dead = new Dead(_controller, _animator, _data);
             _horizontalMachine = new(idle);
 
-            _verticalMachine.AddTransition(jumpingJacks, running, new FuncPredicate(() => _gameStarted == true));
+            _verticalMachine.AddTransition(jumpingJacks, running, new FuncPredicate(() => _gameStarter.IsStarted == true));
             _verticalMachine.AddTransition(running, jumping, _jumpPredicate);
             _verticalMachine.AddTransition(jumping, falling, new FuncPredicate(() => jumping.IsPerformed == true));
             _verticalMachine.AddTransition(jumping, running, new FuncPredicate(() => _controller.IsGrounded == true && jumping.IsPerformed == true));
