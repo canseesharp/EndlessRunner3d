@@ -2,7 +2,7 @@ using System;
 using Unity.Cinemachine;
 using UnityEngine;
 
-namespace EndlessRunner3d
+namespace EndlessRunner3d.UI
 {
     public class StartButtonUI : ButtonUI, IGameStarter
     {
