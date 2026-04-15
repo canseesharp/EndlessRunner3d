@@ -16,17 +16,9 @@ namespace EndlessRunner3d
 
         public float WorldSpeed => _baseWorldSpeed * Multiplier;
 
-        public void OnGameStart() => enabled = true;
-
-        public void OnDead()
+        private void OnDisable()
         {
             Multiplier = 0f;
-            enabled = false;
-        }
-
-        private void Awake()
-        {
-            enabled = false;
         }
 
         private void Update()

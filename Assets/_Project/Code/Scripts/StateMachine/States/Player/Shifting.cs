@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using EndlessRunner3d.SO;
 
-namespace EndlessRunner3d.StateMachine.States
+namespace EndlessRunner3d.StateMachine.States.Player
 {
     public class Shifting : PlayerState
     {
