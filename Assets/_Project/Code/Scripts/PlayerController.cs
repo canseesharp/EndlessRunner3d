@@ -12,9 +12,9 @@ namespace EndlessRunner3d
         [SerializeField] private Transform _headBone;
 
         [Inject] private GameDifficulty _gameDifficulty;
+        [Inject] private PlayerData _data;
 
         private CharacterController _characterController;
-        private PlayerData _data;
         private CapsuleDimensions _standCapsule;
         private CapsuleDimensions _slideCapsule;
         private readonly float _collisionRadius = 0.3f;
@@ -25,11 +25,6 @@ namespace EndlessRunner3d
         public bool HasGravity { get; set; } = true;
 
         public event Action ObstacleHit;
-
-        public void Init(PlayerData data)
-        {
-            _data = data;
-        }
 
         public void Slide() => _slideCapsule.ApplyDimensionsTo(_characterController);
 
