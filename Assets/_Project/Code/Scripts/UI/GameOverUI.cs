@@ -1,31 +1,39 @@
+using EndlessRunner3d.StateMachine;
+using EndlessRunner3d.StateMachine.Machines;
+using EndlessRunner3d.StateMachine.States.Game;
 using TMPro;
 using UnityEngine;
+using Zenject;
 
-namespace EndlessRunner3d
+namespace EndlessRunner3d.UI
 {
     public class GameOverUI : MonoBehaviour
     {
         [SerializeField] private Score _score;
         [SerializeField] private GameObject _gameOverPanel;
         [SerializeField] private TMP_Text _scoreText;
-        [SerializeField] private PlayerController _playerController;
+
+        [Inject] private GameStateMachine _gameStateMachine;
 
         private readonly string _format = "0";
 
         private void OnEnable()
         {
-            _playerController.ObstacleHit += OnObstacleHit;
+            _gameStateMachine.StateChanged += OnStateChanged;
         }
 
         private void OnDisable()
         {
-            _playerController.ObstacleHit -= OnObstacleHit;
+            _gameStateMachine.StateChanged -= OnStateChanged;
         }
 
-        private void OnObstacleHit()
+        private void OnStateChanged(IState state)
         {
-            _scoreText.text = _score.Value.ToString(_format);
-            _gameOverPanel.SetActive(true);
+            if (state is GameOver)
+            {
+                _scoreText.text = _score.Value.ToString(_format);
+                _gameOverPanel.SetActive(true);
+            }
         }
     }
 }

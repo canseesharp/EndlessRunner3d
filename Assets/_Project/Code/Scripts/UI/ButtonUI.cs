@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace EndlessRunner3d
+namespace EndlessRunner3d.UI
 {
     [RequireComponent(typeof(Button))]
     public abstract class ButtonUI : MonoBehaviour

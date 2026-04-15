@@ -1,5 +1,9 @@
+using EndlessRunner3d.StateMachine;
+using EndlessRunner3d.StateMachine.Machines;
+using EndlessRunner3d.StateMachine.States.Game;
 using TMPro;
 using UnityEngine;
+using Zenject;
 
 namespace EndlessRunner3d.UI
 {
@@ -8,20 +12,21 @@ namespace EndlessRunner3d.UI
         [SerializeField] private Score _score;
         [SerializeField] private GameObject _scorePanel;
         [SerializeField] private TMP_Text _scoreText;
-        [SerializeField] private PlayerController _playerController;
+
+        [Inject] private GameStateMachine _gameStateMachine;
 
         private readonly string _format = "0";
 
         private void OnEnable()
         {
             _score.ScoreChanged += OnScoreChanged;
-            _playerController.ObstacleHit += OnObstacleHit;
+            _gameStateMachine.StateChanged += OnStateChanged;
         }
 
         private void OnDisable()
         {
             _score.ScoreChanged -= OnScoreChanged;
-            _playerController.ObstacleHit -= OnObstacleHit;
+            _gameStateMachine.StateChanged -= OnStateChanged;
         }
 
         private void OnScoreChanged(float score)
@@ -29,9 +34,12 @@ namespace EndlessRunner3d.UI
             _scoreText.text = score.ToString(_format);
         }
 
-        private void OnObstacleHit()
+        private void OnStateChanged(IState state)
         {
-            _scorePanel.SetActive(false);
+            if (state is GameOver)
+            {
+                _scorePanel.SetActive(false);
+            }
         }
     }
 }

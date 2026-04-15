@@ -1,6 +1,6 @@
 using UnityEngine.SceneManagement;
 
-namespace EndlessRunner3d
+namespace EndlessRunner3d.UI
 {
     public class RestartButtonUI : ButtonUI
     {
