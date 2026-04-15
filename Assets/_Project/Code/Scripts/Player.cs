@@ -1,5 +1,4 @@
 using UnityEngine;
-using EndlessRunner3d.SO;
 using EndlessRunner3d.StateMachine.Machines;
 
 namespace EndlessRunner3d
@@ -7,8 +6,6 @@ namespace EndlessRunner3d
     [RequireComponent(typeof(PlayerStateMachine), typeof(Animator), typeof(PlayerController))]
     public class Player : MonoBehaviour
     {
-        [SerializeField] private PlayerData _data;
-
         private PlayerStateMachine _stateMachine;
         private PlayerAnimator _animator;
         private PlayerInput _playerInput;
@@ -23,15 +20,12 @@ namespace EndlessRunner3d
 
         private void Awake()
         {
-            _data.Init();
-
             var controller = GetComponent<PlayerController>();
-            controller.Init(_data);
 
             _animator = new(GetComponent<Animator>());
 
             _stateMachine = GetComponent<PlayerStateMachine>();
-            _stateMachine.Init(_data, _animator, controller);
+            _stateMachine.Init(_animator, controller);
 
             _playerInput = new();
         }

@@ -1,12 +1,14 @@
 using UnityEngine;
 using EndlessRunner3d.SO;
 using EndlessRunner3d.StateMachine.States;
+using Zenject;
 
 namespace EndlessRunner3d.StateMachine.Machines
 {
     public class PlayerStateMachine : MonoBehaviour
     {
-        private PlayerData _data;
+        [Inject] private PlayerData _data;
+
         private PlayerAnimator _animator;
         private PlayerController _controller;
         private StateMachine _verticalMachine;
@@ -18,14 +20,10 @@ namespace EndlessRunner3d.StateMachine.Machines
         private bool _gameStarted;
         private bool _isDead;
 
-        public void Init(PlayerData data, PlayerAnimator animator, PlayerController controller)
+        public void Init(PlayerAnimator animator, PlayerController controller)
         {
             _animator = animator;
-            _data = data;
             _controller = controller;
-            _jumpPredicate = new TimeFlagPredicate(data.JumpBuffer);
-            _shiftPredicate = new TimeFlagPredicate(data.ShiftBuffer);
-            _slidePredicate = new TimeFlagPredicate(data.SlideBuffer);
         }
 
         public void OnGameStart()
@@ -61,6 +59,9 @@ namespace EndlessRunner3d.StateMachine.Machines
 
         private void Awake()
         {
+            _jumpPredicate = new TimeFlagPredicate(_data.JumpBuffer);
+            _shiftPredicate = new TimeFlagPredicate(_data.ShiftBuffer);
+            _slidePredicate = new TimeFlagPredicate(_data.SlideBuffer);
             SetupStateMachine();
         }
 
